@@ -29,7 +29,7 @@ jobs:
           git config --local user.name "MrDeving"
 
           # Defined list of specific commit counts to hit all green shades
-          CHOICES=(1 2 3 5 7 9 11)
+          CHOICES=(1 8 16 24)
 
           # Pick a random index from the list (0 through 6)
           RANDOM_INDEX=$((RANDOM % ${#CHOICES[@]}))
