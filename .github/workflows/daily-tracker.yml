@@ -25,25 +25,23 @@ jobs:
 
       - name: Randomly Generate & Commit Data
         run: |
-          # Set Git user to YOUR email so commits attribute to your profile graph
           git config --local user.email "cexistaken@gmail.com"
           git config --local user.name "MrDeving"
 
-          # Pick a random number of commits between 1 and 6 for today
-          NUM_COMMITS=$((1 + RANDOM % 6))
+          # Defined list of specific commit counts to hit all green shades
+          CHOICES=(1 2 3 5 7 9 11)
+
+          # Pick a random index from the list (0 through 6)
+          RANDOM_INDEX=$((RANDOM % ${#CHOICES[@]}))
+          NUM_COMMITS=${CHOICES[$RANDOM_INDEX]}
+
           echo "Generating $NUM_COMMITS commits for today's activity..."
 
           for i in $(seq 1 $NUM_COMMITS); do
-            # Run data collector
             python tracker.py
-
-            # Commit individual update
             git add weather_log.csv
             git commit -m "data: log metric sample $i of $NUM_COMMITS [skip ci]"
-
-            # Small pause to ensure distinct timestamps
             sleep 2
           done
 
-          # Push all generated commits for the day in one batch
           git push
